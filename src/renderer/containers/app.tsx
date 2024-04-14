@@ -1,7 +1,6 @@
 import React, { CSSProperties, FC, useEffect, useState } from 'react';
 import { CONFIG } from '../api';
 import * as ConfigActions from '../actions/config';
-import imageSrc from './sqlectron.gif';
 
 import '../../../vendor/renderer/semantic-ui/semantic';
 import { sqlectron } from '../api';
@@ -92,35 +91,42 @@ const AppContainer: FC = ({ children }) => {
     if (l1 && l2 && l3 && !disabledOpenAnimation) {
       document.getElementById('loading-started')?.remove();
 
-      const img = new Image();
-      img.onload = () => {
+      setTimeout(() => {
+        const loadingWrapper = document.getElementById('loading');
+        const loadingInner = document.createElement('div');
+
+        const version = document.createElement('H3');
+        version.appendChild(document.createTextNode(`v${CONFIG.version}`));
+
+        loadingInner.appendChild(version);
+        const logoText = document.createElement('h1');
+        logoText.className = 'logo-text';
+        logoText.textContent = 'Data Flow';
+        logoText.style.fontSize = '5rem';
+        loadingInner.appendChild(logoText);
+
+        if (!loadingWrapper) {
+          return;
+        }
+
+        loadingWrapper.appendChild(loadingInner);
+        loadingInner.style.display = 'block';
+        loadingInner.style.width = '100%';
+        loadingInner.style.height = '100vh';
+        loadingInner.style.display = 'flex';
+        loadingInner.style.justifyContent = 'center';
+        loadingInner.style.alignItems = 'center';
+        loadingInner.style.background = '#35334c';
+        loadingInner.style.userSelect = 'none';
+
         setTimeout(() => {
-          const loadingWrapper = document.getElementById('loading');
-          const loadingInner = document.createElement('div');
-
-          const version = document.createElement('H3');
-          version.appendChild(document.createTextNode(`v${CONFIG.version}`));
-
-          loadingInner.appendChild(version);
-          loadingInner.appendChild(img);
-
-          if (!loadingWrapper) {
-            return;
-          }
-
-          loadingWrapper.appendChild(loadingInner);
-          loadingInner.style.display = 'block';
-
+          loadingWrapper.className = 'loading-hidden';
           setTimeout(() => {
-            loadingWrapper.className = 'loading-hidden';
-            setTimeout(() => {
-              loadingWrapper.remove();
-            }, 500);
-          }, 4500);
-          document.getElementById('loading-signal')?.remove();
-        }, 500);
-      };
-      img.src = imageSrc;
+            loadingWrapper.remove();
+          }, 500);
+        }, 4500);
+        document.getElementById('loading-signal')?.remove();
+      }, 500);
     }
   }, [config]);
 

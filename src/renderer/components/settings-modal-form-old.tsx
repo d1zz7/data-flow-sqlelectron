@@ -206,6 +206,16 @@ const SettingsModalForm: FC<Props> = ({ onSaveClick, onCancelClick, config }) =>
                   </div>
                   <div className="field">
                     <Checkbox
+                      name="disabledOpenAnimation"
+                      label="Disable Intro"
+                      checked={configState.disabledOpenAnimation}
+                      onChecked={() => handleSetConfigState({ disabledOpenAnimation: true })}
+                      onUnchecked={() => handleSetConfigState({ disabledOpenAnimation: false })}
+                    />
+                    <p className="help">Enable/Disable the animation shown when the app opens.</p>
+                  </div>
+                  <div className="field">
+                    <Checkbox
                       name="connectionsAsList"
                       label="List Connections"
                       checked={configState.connectionsAsList}
@@ -222,7 +232,7 @@ const SettingsModalForm: FC<Props> = ({ onSaveClick, onCancelClick, config }) =>
                       <input
                         type="text"
                         name="customFont"
-                        value={configState.customFont || 'Consolas'}
+                        value={configState.customFont || 'Lato'}
                         onChange={handleChange}
                       />
                       <p className="help">
@@ -233,6 +243,163 @@ const SettingsModalForm: FC<Props> = ({ onSaveClick, onCancelClick, config }) =>
                   </div>
                 </div>
               </div>
+            </div>
+
+            <div className="ui segment">
+              <div className="one field">Auto Complete</div>
+              <div className="two fields">
+                <div className="field">
+                  <Checkbox
+                    name="enabledAutoComplete"
+                    label="Auto Complete"
+                    checked={configState.enabledAutoComplete}
+                    onChecked={() => handleSetConfigState({ enabledAutoComplete: true })}
+                    onUnchecked={() => handleSetConfigState({ enabledAutoComplete: false })}
+                  />
+                  <p className="help">Enable/Disable auto complete for the query box.</p>
+                </div>
+                <div className="field">
+                  <Checkbox
+                    name="enabledLiveAutoComplete"
+                    label="Live Auto Complete"
+                    checked={configState.enabledLiveAutoComplete}
+                    onChecked={() => handleSetConfigState({ enabledLiveAutoComplete: true })}
+                    onUnchecked={() => handleSetConfigState({ enabledLiveAutoComplete: false })}
+                  />
+                  <p className="help">Enable/Disable live auto complete for the query box.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="ui segment">
+              <div className="one field">CSV Options</div>
+              <div className="two fields">
+                <div className="field">
+                  <label>Custom CSV Delimiter Character</label>
+                  <input
+                    type="text"
+                    name="csvDelimiter"
+                    value={configState.csvDelimiter || ','}
+                    onChange={handleChange}
+                  />
+                  <p className="help">
+                    Characters entered here will override the comma/tab switch.
+                  </p>
+                </div>
+                <div className="field">
+                  <Checkbox
+                    name="use"
+                    label="Tab Delimited Values"
+                    checked={configState.csvDelimiter === '  '}
+                    onChecked={() => handleSetConfigState({ csvDelimiter: '  ' })}
+                    onUnchecked={() => handleSetConfigState({ csvDelimiter: ',' })}
+                  />
+                  <p className="help">Use tabs for exporting CSVs when checked.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="ui segment">
+            <div className="one field">Logging</div>
+            <div>
+              <div className="two fields">
+                <div className="field">
+                  <Checkbox
+                    name="log.console"
+                    label="Console"
+                    checked={log.console}
+                    onChecked={() =>
+                      handleChange({
+                        target: { name: 'log.console', value: true },
+                      })
+                    }
+                    onUnchecked={() =>
+                      handleChange({
+                        target: { name: 'log.console', value: false },
+                      })
+                    }
+                  />
+                  <p className="help">Show logs in the dev tools panel.</p>
+                </div>
+
+                <div className="field">
+                  <Checkbox
+                    name="log.file"
+                    label="File"
+                    checked={log.file}
+                    onChecked={() =>
+                      handleChange({
+                        target: { name: 'log.file', value: true },
+                      })
+                    }
+                    onUnchecked={() =>
+                      handleChange({
+                        target: { name: 'log.file', value: false },
+                      })
+                    }
+                  />
+                  <p className="help">Save logs into a file.</p>
+                </div>
+              </div>
+
+              <div className="two fields">
+                <div className={`field ${highlightError('log.path')}`}>
+                  <label>Path</label>
+                  <div className="ui action input">
+                    <input
+                      type="text"
+                      name="log.path"
+                      placeholder="~/.sqlectron.log"
+                      value={log.path || ''}
+                      onChange={handleChange}
+                    />
+                    <label htmlFor="file.log.path" className="ui icon button btn-file">
+                      <i className="file outline icon" />
+                      <input
+                        type="file"
+                        id="file.log.path"
+                        name="file.log.path"
+                        onChange={handleChange}
+                        style={{ display: 'none' }}
+                      />
+                    </label>
+                  </div>
+                  <p className="help">Log file path.</p>
+                </div>
+                <div id="logLevel" className={`field ${highlightError('log.level')}`}>
+                  <label>Level</label>
+                  <Select
+                    name="log.level"
+                    options={logLevelOptions}
+                    defaultValue={errorLogLevelOption}
+                    isClearable={false}
+                    onChange={handleLogLevelChange}
+                    formatOptionLabel={renderLogLevelItem}
+                    value={logLevelOptions.find((l) => l.value === log.level)}
+                  />
+                  <p className="help">Level logging: debug, info, warn, error.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="two fields">
+            <div className="field">
+              <div className="ui label">
+                Config Path
+                <div
+                  className="detail"
+                  style={{
+                    padding: '5px 0',
+                  }}>
+                  {config.path}
+                </div>
+              </div>
+            </div>
+            <div className="field">
+              Check out the full settings documentation at{' '}
+              <a href="#" onClick={onDocClick}>
+                here
+              </a>
             </div>
           </div>
         </form>

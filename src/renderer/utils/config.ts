@@ -7,10 +7,10 @@ export function mapObjectToConfig(obj): BaseConfig {
     enabledAutoComplete: obj.enabledAutoComplete || false,
     enabledLiveAutoComplete: obj.enabledLiveAutoComplete || false,
     enabledDarkTheme: obj.enabledDarkTheme || false,
-    disabledOpenAnimation: obj.disabledOpenAnimation || false,
+    disabledOpenAnimation: obj.disabledOpenAnimation || true,
     csvDelimiter: obj.csvDelimiter || ',',
     connectionsAsList: obj.connectionsAsList || false,
-    customFont: obj.customFont || 'Lato',
+    customFont: obj.customFont || 'Consolas',
   };
   if (!obj.log) {
     return config;

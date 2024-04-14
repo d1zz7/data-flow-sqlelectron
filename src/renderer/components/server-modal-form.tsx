@@ -543,23 +543,6 @@ const ServerModalForm: FC<Props> = ({
                 />
               </div>
             </div>
-            <div className="field">
-              <div className={`field ${highlightError('name')}`}>
-                <label>URI</label>
-                <input
-                  type="text"
-                  name="connURI"
-                  placeholder="URI"
-                  disabled={!showPlainPassword}
-                  value={connURI || ''}
-                  onChange={handleURIChange}
-                />
-                <em style={{ visibility: showPlainPassword ? 'hidden' : 'visible' }}>
-                  Make the password visible in order to change the database credentials through the
-                  URI format.
-                </em>
-              </div>
-            </div>
           </div>
           {!isFeatureDisabled('server:ssh') && (
             <div className="ui segment">
@@ -692,65 +675,6 @@ const ServerModalForm: FC<Props> = ({
               )}
             </div>
           )}
-          <div className="ui segment">
-            <div className="one field">
-              <Checkbox
-                name="filter"
-                label="Filter"
-                checked={!!serverState.filter}
-                onChecked={() => updateServerState({ filter: {} })}
-                onUnchecked={() => updateServerState({ filter: undefined })}
-              />
-            </div>
-            {!!serverState.filter && (
-              <div>
-                <p>
-                  <em>
-                    Allow to pre filter the data available in the sidebar. It improves the rendering
-                    performance for large servers.
-                    <br />
-                    Separate values by break line
-                  </em>
-                </p>
-                {['database', 'schema'].map((type) => (
-                  <div key={type} className="field">
-                    <label>{titlize(type)}</label>
-                    <div className="fields">
-                      <div className={`eight wide field ${highlightError(`filter.${type}.only`)}`}>
-                        <label>Only</label>
-                        <textarea
-                          name={`filter.${type}.only`}
-                          placeholder="Only"
-                          rows={3}
-                          value={
-                            serverState.filter?.[type]?.only
-                              ? serverState.filter[type].only.join('\n')
-                              : ''
-                          }
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div
-                        className={`eight wide field ${highlightError(`filter.${type}.ignore`)}`}>
-                        <label>Ignore</label>
-                        <textarea
-                          name={`filter.${type}.ignore`}
-                          placeholder="Ignore"
-                          rows={3}
-                          value={
-                            serverState.filter?.[type]?.ignore
-                              ? serverState.filter[type].ignore.join('\n')
-                              : ''
-                          }
-                          onChange={handleChange}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
         </form>
       </div>
       <div className="actions">

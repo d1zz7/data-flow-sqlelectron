@@ -1,41 +1,13 @@
-import React, { FC, MouseEvent } from 'react';
-
-import { sqlectron } from '../api';
-import UpdateChecker from './update-checker';
-import LogStatus from './log-status';
+import React, { FC } from 'react';
 
 interface Props {
   status: string;
 }
 
-const Footer: FC<Props> = ({ status }) => {
-  const onGithubClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    sqlectron.browser.shell.openExternal('https://github.com/sqlectron/sqlectron-gui');
-  };
-
-  const onShortcutsClick = (event: MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    sqlectron.browser.shell.openExternal(
-      'https://github.com/sqlectron/sqlectron-gui/wiki/Keyboard-Shortcuts',
-    );
-  };
-
+const Footer: FC<Props> = () => {
   return (
-    <div className="ui bottom fixed menu borderless" style={{ minHeight: 'auto' }}>
-      <div style={{ paddingLeft: '0.5em' }}>{status}</div>
-      <div className="right menu">
-        <div className="item">
-          <LogStatus />
-          <UpdateChecker />
-        </div>
-        <a href="#" className="item" onClick={onGithubClick}>
-          GitHub
-        </a>
-        <a href="#" className="item" title="Keyboard Shortcuts" onClick={onShortcutsClick}>
-          <i className="keyboard icon" />
-        </a>
-      </div>
+    <div className="ui bottom fixed menu borderless" style={{ minHeight: 'auto', padding: 5 }}>
+      <p style={{ marginLeft: 5, color: 'whitesmoke' }}>© Data Flow 2024 | Muhametov Tahir</p>
     </div>
   );
 };
