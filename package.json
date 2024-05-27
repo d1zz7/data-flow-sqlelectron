@@ -1,19 +1,14 @@
 {
-  "name": "sqlectron",
+  "name": "dataflow",
   "version": "1.38.0",
-  "description": "A simple and lightweight SQL client with cross database and platform support",
+  "description": "MySQL IDE",
   "author": {
-    "name": "The Sqlectron Team",
-    "email": "maxcnunes@gmail.com"
+    "name": "d1zz7",
+    "email": "muhametov.tahir@yandex.com"
   },
   "main": "./out/browser/main.js",
   "license": "MIT",
-  "homepage": "https://sqlectron.github.io",
   "bugs": "https://github.com/sqlectron/sqlectron-gui/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sqlectron/sqlectron-gui"
-  },
   "build": {
     "appId": "org.sqlectron.gui",
     "afterSign": "build/notarize.js",
